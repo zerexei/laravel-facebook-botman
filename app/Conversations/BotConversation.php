@@ -4,11 +4,13 @@ namespace App\Conversations;
 
 use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
+use BotMan\BotMan\Messages\Incoming\IncomingMessage;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 use BotMan\BotMan\Messages\Outgoing\Question;
 
 class BotConversation extends Conversation
 {
+    // start the current conversation class
     public function run()
     {
         try {
@@ -17,6 +19,16 @@ class BotConversation extends Conversation
         } catch (\Exception $ex) {
             $this->say(json_encode($ex));
         }
+    }
+
+    // stop the current conversation class
+    public function stopsConversation(IncomingMessage $message)
+    {
+        if ($message->getText() == 'stop') {
+            return true;
+        }
+
+        return false;
     }
 
     public function start()
