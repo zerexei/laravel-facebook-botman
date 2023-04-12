@@ -27,6 +27,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        \BotMan\BotMan\Drivers\DriverManager::loadDriver(\BotMan\Drivers\Facebook\FacebookDriver::class);
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
