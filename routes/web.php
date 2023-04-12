@@ -23,6 +23,46 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test', function () {
+    $x = new class
+    {
+        protected $questions = [
+            ["id" => 1, "parent_id" => null, "title" => "Question 1", "response" => "Response 1"],
+            ["id" => 2, "parent_id" => null, "title" => "Question 2", "response" => "Response 2"],
+            ["id" => 3, "parent_id" => null, "title" => "Question 3", "response" => "Response 3"],
+            ["id" => 4, "parent_id" => 1, "title" => "Question 1.1", "response" => "Response 1.1"],
+            ["id" => 5, "parent_id" => 1, "title" => "Question 1.2", "response" => "Response 1.2"],
+            ["id" => 6, "parent_id" => 2, "title" => "Question 2.1", "response" => "Response 2.1"],
+            ["id" => 7, "parent_id" => 2, "title" => "Question 2.2", "response" => "Response 2.2"],
+            ["id" => 8, "parent_id" => 3, "title" => "Question 3.1", "response" => "Response 3.1"],
+        ];
+
+        public function generateQuestion(string|null $value)
+        {
+            if (is_null($value)) {
+                return $this->generateButtons(null);
+            }
+
+            $questions = collect($this->questions);
+
+            $question = $questions->where('title', $value)->first();
+            $buttons = $this->generateButtons($question['id']);
+            return $buttons;
+        }
+
+        public function generateButtons(int|null $value): array
+        {
+            $questions = collect($this->questions);
+            $questions = $questions->where('parent_id', $value);
+            return $questions->map(function ($question) {
+                return $question['title'];
+            })->toArray();
+        }
+    };
+    $y = new $x;
+    dd($y->generateQuestion(null));
+});
+
 Route::get('/botman/chat', function () {
     return view("chat");
 });
