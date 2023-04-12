@@ -1,5 +1,6 @@
 <?php
 
+use App\Conversations\BotConversation;
 use BotMan\BotMan\BotMan;
 use BotMan\BotMan\BotManFactory;
 use BotMan\BotMan\Drivers\DriverManager;
@@ -28,6 +29,10 @@ Route::get('/botman/chat', function () {
 
 Route::match(['post', 'get'], '/botman', function () {
     $botman = resolve('botman');
+
+    $botman->hears('start', function (BotMan $bot) {
+        $bot->startConversation(new BotConversation());
+    });
 
     $botman->hears('hello', function (BotMan $bot) {
         $bot->typesAndWaits(2);

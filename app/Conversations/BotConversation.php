@@ -39,6 +39,7 @@ class BotConversation extends Conversation
             // when user typed the answer
             if (!$answer->isInteractiveMessageReply()) {
                 $this->bot->reply('stop');
+                return;
             }
 
             $value = $answer->getValue() ?? $answer->getText();
@@ -48,12 +49,13 @@ class BotConversation extends Conversation
 
     protected function generateQuestion()
     {
+        $buttons = $this->generateButtons();
         return Question::create('Do you need any help?')
             ->fallback('Unable to help')
-            ->addButtons([]);
+            ->addButtons($buttons);
     }
 
-    protected function generateButton()
+    protected function generateButtons()
     {
         return [
             Button::create('Of course')->value('yes'),
