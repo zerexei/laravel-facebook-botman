@@ -38,7 +38,7 @@ class BotConversation extends Conversation
         return in_array($message->getText(), ['stop', 'start']);
     }
 
-    public function start()
+    protected function start()
     {
         $question = $this->generateQuestion(null);
 
