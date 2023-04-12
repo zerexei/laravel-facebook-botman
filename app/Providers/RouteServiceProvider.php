@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use BotMan\BotMan\Drivers\DriverManager;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
